@@ -25,7 +25,7 @@ tr = cosmo.get_transfer(49)
 delta_cdm = tr['d_cdm']
 k= tr['k (h/Mpc)']*cosmo.h()
 
-# Create interpolating functionfor transfer function
+# Create interpolating function for transfer function
 dfunc = interp1d(k, delta_cdm, kind='cubic', bounds_error=False, fill_value=0)
 
 # define class for saving data
@@ -81,12 +81,8 @@ dataset.d1 = d1
 dataset.t1 = theta1
 
 #creating arrays for delta2 and theta2
-
-theta1 = d1
-theta1used = d1used
-
-dataset.d1 = d1
-dataset.t1 = theta1
+d2 = np.empty((41,41,41), dtype=complex)
+theta2 = np.empty((41,41,41), dtype=complex)
 
 #calculating delta and theta2
 d1mK = np.flip(np.flip(np.flip(d1,2) ,1) ,0)
@@ -105,6 +101,8 @@ for x in range(0,41):
             d2[x,y,z] = np.sum(intfuncd)*0.5**3
             theta2[x,y,z] = -np.sum(intfunct)*0.5**3
 
+dataset.d2 = d2
+dataset.t2 = theta2
 #creating full deltas and thetas
 d1pd2 = d1[20:61,20:61,20:61]+d2
 t1pt2 = theta1[20:61,20:61,20:61]+theta2
